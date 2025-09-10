@@ -1,7 +1,7 @@
 def squares(lenght):
     squares = {}
-    for x in (int(len(lenght))):
-        squares[x] = x**2
+    for x in range(lenght):
+        squares[x+1] = (x+1)**2
     print(squares)
 
-squares(input())
+squares(int(input()))
