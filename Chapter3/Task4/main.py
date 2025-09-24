@@ -169,21 +169,70 @@ class DoublyLinkedList:
             raise(ValueError('Index out of bounds'))
 
 
+
         previous_node = None
         next_node = self._head
 
+        """ Iteroidaan indeksiin asti next_node = index & previous_node = node before """
         for _ in range(index):
             previous_node = next_node
             next_node = next_node.next
 
         new_node = ListNode(value, next_node)
 
+        """ Jos index = 0 laitetaan value self.head , muuten seuraavaan"""
         if previous_node is None:
             self._head = new_node
         else:
             previous_node.next = new_node
         
+        """ Jos loppuun niin päivitetään tail"""
         if previous_node == self._tail:
             self._tail = new_node
 
         self._size += 1
+
+
+"""Doubly """
+def insert(self, index, value):
+    """
+    Insert a new node with value in the position given by the index
+
+    Parameters:
+    - 'index': The position where to insert the new node
+    - 'value': The value of the new node
+
+    Returns: None
+    """
+    if index < 0 or index > self._size:
+        raise ValueError('Index out of bounds')
+
+    # Case 1: Insert at head
+    if index == 0:
+        new_node = ListNode(value, self._head, None)
+        if self._head:                # lista ei ole tyhjä
+            self._head.prev = new_node
+        self._head = new_node
+        if self._tail is None:        # Jos tyhjä
+            self._tail = new_node
+
+    # Case 2: Insert at tail
+    elif index == self._size:
+        new_node = ListNode(value, None, self._tail)
+        if self._tail:
+            self._tail.next = new_node
+        self._tail = new_node
+        if self._head is None:        # lista tyjä
+            self._head = new_node
+
+    # Case 3: Insert in the middle
+    else:
+        current = self._head
+        for _ in range(index):        # iteroidaan indeksiin
+            current = current.next
+        prev_node = current.prev
+        new_node = ListNode(value, current, prev_node)
+        prev_node.next = new_node
+        current.prev = new_node
+
+    self._size += 1

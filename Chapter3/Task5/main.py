@@ -245,12 +245,13 @@ class DoublyLinkedList:
         Returns: The value of the node being removed
         """
 
-        if index < 0 or index > self._size:
+        if index < 0 or index >= self._size:
             raise(ValueError('Index out of bounds'))
         
         if self._size == 0:
             raise ValueError("Cannot remove from empty list")
 
+        """Poistetaan ensimmäinen"""
         if index == 0:
             value = self._head.data
             self._head = self._head.next
@@ -259,14 +260,19 @@ class DoublyLinkedList:
             self._size -= 1
             return value
 
+        """ Iteroidaan indeksiin """
         previous_node = self._head
         for _ in range(index - 1):
             previous_node = previous_node.next
 
+        """ Tallennetaan arvo"""
         target_node = previous_node.next
         value = target_node.data
 
+        """ otetaan linkki pois"""
         previous_node.next = target_node.next
+
+        """ jos viimeinen päivitetän linkki"""
 
         if target_node == self._tail:
             self._tail = previous_node
